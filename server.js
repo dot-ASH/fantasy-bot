@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { scrape } from './src/tools/scrapper.js';
+import { sendtxt } from './src/commands/sendtxt.js';
 import { prevMatch, nextMatch } from "./src/commands/matchday.js";
 
 const server = express();
@@ -34,6 +35,13 @@ server.post('/scrape', async (req, res) =>{
   await scrape(nextMatch.url, "nextMatch");
 res.render('login.ejs')
 })
+
+server.post('/txt', async (req, res) =>{
+let text = req.body.text;
+sendtxt(text)
+res.render('login.ejs')
+})  
+
 export default function keepAlive() {
   server.listen(3000, () => {
     console.log(`Server is ready`);
